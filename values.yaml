@@ -1,0 +1,58 @@
+# Required:
+conduitname: ""
+
+# optional "classifier" default nothing.
+classifier: ""
+
+# The user installing/upgrading the chart
+# this will be decorated on every object as
+# an additional label
+creatorId: "unknown@somewhere.com"
+
+# The label "names" (i.e. keys) for common labels
+# that will be applied to all created k8s objects
+labelNames:
+  conduitName: "conduit-name"
+  creatorId: "creator-id"
+
+# Defaults for services that will be generated
+service:
+  type: ClusterIP
+  port: 80 # the default, you can override per service mappings with each contexts.[contextname].services.[servicename].port
+  targetPort: 80 # the default, you can override per service mappings with each contexts.[contextname].services.[servicename].targetPort
+  selectors:
+    # for each service generated, since scoped by "context" we always
+    # apply the context name to selector label.
+    # Will yield {{contextLabelName}}: {{serviceContext}}
+    contextLabelName: "app-context"
+
+    # additional default selectors to apply to all services beyond
+    # those specified per contexts.[contextName].services.[servicename] declaration
+    defaults: []
+      #- name: "selector-label
+      #  value: "selector-value"
+
+# Defaults for ingresses that will be generated
+ingress:
+  metadata:
+    # defaults below, you can override in each indivdual ingress mapping via
+    # contexts.[contextname].services.[ingressname].mappings.annotations.x=y
+    annotations:
+      - name: "kubernetes.io/ingress.class"
+        value: "traefik"
+    tls:
+      enabled: false
+      secretName: ""
+    labels: []
+      #- name: "some-label"
+      #  value: "whatever"
+
+externalDns:
+  enabled: true
+  labelName: "external-dns"
+
+hooks:
+  postInstallUpgrade:
+    # Example hook posts to: https://bitsofinfo.slack.com/messages/CE46Z3TJA/
+    # the #bitsofinfo-dev channel
+    webhook_url: https://hooks.slack.com/services/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
