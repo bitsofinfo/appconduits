@@ -123,12 +123,17 @@ spec:
       */}}
       {{ range $host := $ingressMapping.hosts -}}
 
+      {{ $ingressK8sName := printf "%s.%sNOCLASSIFIER.%s.%s--%s" $conduitname $ingressName $ingressMapping.name }}
+      {{- $ingressK8sName := $ingressK8sName | replace ".NOCLASSIFIER" "" -}}
+      {{- $ingressK8sName := $ingressK8sName | replace "NOCLASSIFIER" "" -}}
+      {{- $ingressK8sName := $ingressK8sName | replace ".%!s(<nil>)" "" -}}
+
 # INGRESS
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   namespace: {{ $namespace }}
-  name: "{{ printf "%s.%s.%s--%s" $conduitname $ingressName $ingressMapping.name $host.name }}"
+  name: "{{ ingressK8sName }}"
   labels:
   {{- range $label := $defaultIngressLabels }}
   "{{ $label.name }}": "{{ $label.value }}"
