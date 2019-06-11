@@ -3,20 +3,20 @@ entries:
   appconduits:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-06-10T21:32:55.498119-06:00
+    created: 2019-06-10T21:39:34.360338-06:00
     description: Chart for creating custom Service/Ingress definitions or conduits
-    digest: f58dc1a2e301979ee7f060f0fc5dc0289e9f17dbb8f702c625289274bf31c558
+    digest: 0da1682d8be4f2672b36b4bd2fa80ae7895d6e49656a91d3ac4d6e2791a40e7b
     name: appconduits
     urls:
     - charts/appconduits-1.0.1.tgz
     version: 1.0.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-06-10T21:32:55.497052-06:00
+    created: 2019-06-10T21:39:34.359223-06:00
     description: Chart for creating custom Service/Ingress definitions or conduits
     digest: 4fc2f706691693545c5cb17fa167d55e57d0ce2835a59c42bbf3dde613590fae
     name: appconduits
     urls:
     - charts/appconduits-1.0.0.tgz
     version: 1.0.0
-generated: 2019-06-10T21:32:55.496417-06:00
+generated: 2019-06-10T21:39:34.358398-06:00

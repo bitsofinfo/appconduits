@@ -133,7 +133,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   namespace: {{ $namespace }}
-  name: "{{ ingressK8sName }}"
+  name: "{{ $ingressK8sName }}"
   labels:
   {{- range $label := $defaultIngressLabels }}
   "{{ $label.name }}": "{{ $label.value }}"
