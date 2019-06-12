@@ -1,3 +1,6 @@
+# 1.0.2
+Put `host.name` back in the Ingress `name:`
+
 # 1.0.1
 Change `Ingress` names to not have `host.name` and account for `classifier`
 

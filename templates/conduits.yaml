@@ -123,7 +123,7 @@ spec:
       */}}
       {{ range $host := $ingressMapping.hosts -}}
 
-      {{ $ingressK8sName := printf "%s.%sNOCLASSIFIER.%s.%s" $conduitname $classifier $ingressName $ingressMapping.name }}
+      {{ $ingressK8sName := printf "%s.%sNOCLASSIFIER.%s.%s--%s" $conduitname $classifier $ingressName $ingressMapping.name $host.name }}
       {{- $ingressK8sName := $ingressK8sName | replace ".NOCLASSIFIER" "" -}}
       {{- $ingressK8sName := $ingressK8sName | replace "NOCLASSIFIER" "" -}}
       {{- $ingressK8sName := $ingressK8sName | replace ".%!s(<nil>)" "" -}}
