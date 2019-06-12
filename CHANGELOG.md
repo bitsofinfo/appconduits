@@ -1,3 +1,6 @@
+# 1.0.3
+Ensure `classifier` taken in to account on Hook object names
+
 # 1.0.2
 Put `host.name` back in the Ingress `name:`
 
