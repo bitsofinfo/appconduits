@@ -3,16 +3,25 @@ entries:
   appconduits:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-06-12T15:15:12.943468-06:00
+    created: 2019-06-12T15:21:04.145479-06:00
     description: Chart for creating custom Service/Ingress definitions or conduits
-    digest: 0797bb800c79df39a91c6f895a65c73348bb00bc2b541a7c558b9e9c9e542079
+    digest: 30e1fcf0beab4a6bd03153d9d3ca69111a17a93d64be72cd3424fe40ca6c272a
+    name: appconduits
+    urls:
+    - charts/appconduits-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-06-12T15:21:04.141999-06:00
+    description: Chart for creating custom Service/Ingress definitions or conduits
+    digest: 92edb02d9c46e20669a798181943d3c67087712c0fa50894ab281a89826e8e9d
     name: appconduits
     urls:
     - charts/appconduits-1.0.3.tgz
     version: 1.0.3
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-06-12T15:15:12.94187-06:00
+    created: 2019-06-12T15:21:04.139195-06:00
     description: Chart for creating custom Service/Ingress definitions or conduits
     digest: 547f2ca655ffaed0ce24284ab81a6e75bdd00d23a5ca92d64e47bbe69ced8e67
     name: appconduits
@@ -21,7 +30,7 @@ entries:
     version: 1.0.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-06-12T15:15:12.939799-06:00
+    created: 2019-06-12T15:21:04.136839-06:00
     description: Chart for creating custom Service/Ingress definitions or conduits
     digest: 9ba3d8461f4c84e350e931e3b1b11978755aa28fecbd9708229a70040b052c20
     name: appconduits
@@ -30,11 +39,11 @@ entries:
     version: 1.0.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-06-12T15:15:12.938679-06:00
+    created: 2019-06-12T15:21:04.135378-06:00
     description: Chart for creating custom Service/Ingress definitions or conduits
     digest: 4fc2f706691693545c5cb17fa167d55e57d0ce2835a59c42bbf3dde613590fae
     name: appconduits
     urls:
     - charts/appconduits-1.0.0.tgz
     version: 1.0.0
-generated: 2019-06-12T15:15:12.937352-06:00
+generated: 2019-06-12T15:21:04.134606-06:00

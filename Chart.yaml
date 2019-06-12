@@ -2,4 +2,4 @@ apiVersion: v1
 appVersion: "1.0"
 description: "Chart for creating custom Service/Ingress definitions or conduits"
 name: appconduits
-version: 1.0.3
+version: 1.0.4

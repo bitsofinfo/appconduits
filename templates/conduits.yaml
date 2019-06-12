@@ -243,7 +243,7 @@ metadata:
 data:
   slackalert.json: |
     {
-      "text":"*Conduits Applied:* {{ $conduitname }}-{{ $contextName }}",
+      "text":"*Conduits Applied:* {{ $hookK8sNamePrefix }}",
       "attachments": [
 
           {{- range $ingressName, $ingress := $context.ingress -}}
@@ -320,15 +320,15 @@ spec:
   activeDeadlineSeconds: 300 # max run for 10 minutes (i.e. inclusive of retries)
   template:
     metadata:
-      name: "{{ $conduitname }}-{{ $contextName }}-conduitsalert"
+      name: "{{ $hookK8sNamePrefix }}-conduitsalert"
     spec:
       restartPolicy: Never
       volumes:
         - name: config-volume
           configMap:
-            name: {{ $conduitname }}-{{ $contextName }}-conduitsalert-config
+            name: {{ $hookK8sNamePrefix }}-conduitsalert-config
       containers:
-        - name: {{ $conduitname }}-{{ $contextName }}-conduitsalert
+        - name: {{ $hookK8sNamePrefix }}-conduitsalert
           image: "byrnedo/alpine-curl:latest"
           command:
             - "curl"
