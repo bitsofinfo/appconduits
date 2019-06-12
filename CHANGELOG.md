@@ -1,3 +1,6 @@
+# 1.0.5
+Fix: dots to dashes in conduit hook parts names
+
 # 1.0.4
 Fix: Ensure `classifier` taken in to account on Hook object names
 

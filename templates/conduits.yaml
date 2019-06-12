@@ -220,10 +220,10 @@ spec:
 
 
 
-{{ $hookK8sNamePrefix := printf "%s.%s.%sNOCLASSIFIER" $conduitname $contextName $classifier }}
-{{- $hookK8sNamePrefix := $hookK8sNamePrefix | replace ".NOCLASSIFIER" "" -}}
+{{ $hookK8sNamePrefix := printf "%s-%s-%sNOCLASSIFIER" $conduitname $contextName $classifier }}
+{{- $hookK8sNamePrefix := $hookK8sNamePrefix | replace "-NOCLASSIFIER" "" -}}
 {{- $hookK8sNamePrefix := $hookK8sNamePrefix | replace "NOCLASSIFIER" "" -}}
-{{- $hookK8sNamePrefix := $hookK8sNamePrefix | replace ".%!s(<nil>)" "" -}}
+{{- $hookK8sNamePrefix := $hookK8sNamePrefix | replace "-%!s(<nil>)" "" -}}
 
 {{/* -------------------------------------------
      HOOK Support: POST INSTALL UPGRADE ConfigMap
