@@ -17,6 +17,7 @@ Next, ensure the following Helm repos exists on your machine:
 ```
 helm repo add bitsofinfo-appdeploy https://raw.githubusercontent.com/bitsofinfo/appdeploy/master/repo
 helm repo add bitsofinfo-appconduits https://raw.githubusercontent.com/bitsofinfo/appconduits/master/repo
+helm repo update
 ```
 
 ## Deploy some apps
