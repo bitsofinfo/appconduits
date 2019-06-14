@@ -13,12 +13,12 @@
 {{- $defaultServicePort := .Values.service.port -}}
 {{- $defaultServiceSelectors := .Values.service.selectors -}}
 {{- $defaultServiceTargetPort := .Values.service.targetPort -}}
-{{- $externalDns := .Values.externalDns -}}
 {{- $namespace := .Release.Namespace -}}
 {{- $classifier := .Values.classifier -}}
-{{- $defaultIngressLabels := .Values.ingress.metadata.labels -}}
-{{- $defaultIngressTls := .Values.ingress.tls -}}
-{{- $defaultIngressAnnotations := .Values.ingress.metadata.annotations -}}
+{{- $ingressDefaults := .Values.ingress }}
+{{- $defaultIngressLabels := $ingressDefaults.metadata.labels -}}
+{{- $defaultIngressTls := $ingressDefaults.tls -}}
+{{- $defaultIngressAnnotations := $ingressDefaults.metadata.annotations -}}
 {{- $hooks := .Values.hooks -}}
 
 
@@ -136,11 +136,11 @@ metadata:
   name: "{{ $ingressK8sName }}"
   labels:
   {{- range $label := $defaultIngressLabels }}
-  "{{ $label.name }}": "{{ $label.value }}"
+    "{{ $label.name }}": "{{ $label.value }}"
   {{- end }}
   {{ if and $ingressMapping.labels }}
     {{- range $key, $value := $ingressMapping.labels }}
-    {{ $key }}: "{{ $value }}"
+    "{{ $key }}": "{{ $value }}"
     {{- end }}
   {{ end }}
   {{ include "stdlabels.tpl" $stdlabelsargs | indent 4 }}
@@ -154,13 +154,16 @@ metadata:
     {{- end }}
     {{ end }}
 
-    {{ if $externalDns.enabled }}
-      {{ if and (hasKey $host "dns") (not $host.dns) }}
-    "{{$externalDns.labelName}}": "disabled"
-      {{ else }}
-    "{{$externalDns.labelName}}": "enabled"
+    {{ if and (hasKey $host "dns") (not $host.dns) }}
+      {{ range $label := $ingressDefaults.mappings.hosts.dns.else.labels }}
+    "{{$label.name}}": "{{$label.value}}"
+      {{ end }}
+    {{ else }}
+      {{ range $label := $ingressDefaults.mappings.hosts.dns.ifTrue.labels }}
+    "{{$label.name}}": "{{$label.value}}"
       {{ end }}
     {{ end }}
+
 
     {{ if hasKey $targetService "tls" }}
       {{ if not $targetService.tls }}

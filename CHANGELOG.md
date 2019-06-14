@@ -1,3 +1,7 @@
+# 1.0.6
+Fix: Ingress labels, get rid of `externalDns` change to `ingress.mappings.hosts.dns`
+Readme updates/ examples
+
 # 1.0.5
 Fix: dots to dashes in conduit hook parts names
 

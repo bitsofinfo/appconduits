@@ -1,0 +1,10 @@
+FROM nginx
+
+ARG appname=dogapp
+ARG appversion=1.0.0
+
+RUN mkdir /usr/share/nginx/html/blue
+RUN mkdir /usr/share/nginx/html/green
+RUN echo "welcome to <font color=BLUE>BLUE</font> @ ${appname}:${appversion}" > /usr/share/nginx/html/blue/index.html
+RUN echo "welcome to <font color=GREEN>GREEN</font> @ ${appname}:${appversion}" > /usr/share/nginx/html/green/index.html
+RUN echo "welcome to ${appname}:${appversion}" > /usr/share/nginx/html/index.html

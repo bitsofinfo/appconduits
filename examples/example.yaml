@@ -1,20 +1,5 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# appconduits values.yaml defaults
-#   - Required items are marked as such
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# Required:
-conduitname: ""
-
-# optional "classifier" default nothing.
-# This is a naming modifier for all generated artifacts
-# i.e. [conduitname][-[classifier]]-[contextname]
-# https://github.com/bitsofinfo/appdeploy#convention
-classifier: ""
-
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# CONDUITS DEFINITIONS:
+# EXAMPLE: CONDUITS DEFINITIONS:
 # Here is where the rubber hits the road and where we define actual "conduits"
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 contexts:
@@ -36,12 +21,12 @@ contexts:
       # service "name"
       dog1:
         # the service's selectors, can be any valid k8s label selectors
-        tls: false
+        tls: false # default is TRUE if omitted
         selector:
           app-name: "dogapp"
           app-version: "1.0.0"
       dog2:
-        tls: false
+        tls: false # default is TRUE if omitted
         selector:
           app-name: "dogapp"
           app-version: "2.0.0"
@@ -161,81 +146,3 @@ contexts:
             serviceBindings:
               cat1: "50%"
               cat2: "50%"
-
-
-
-# The user installing/upgrading the chart
-# this will be decorated on every object as
-# an additional label
-creatorId: "unknown@bitsofinfo.appconduits.chart"
-
-# The label "names" (i.e. keys) for common labels
-# that will be applied to all created k8s objects
-labelNames:
-  conduitName: "conduit-name"
-  creatorId: "creator-id"
-
-# Defaults for k8s Services that will be generated
-service:
-  type: ClusterIP
-  port: 80 # the default, you can override per service mappings with each contexts.[contextname].services.[servicename].port
-  targetPort: 80 # the default, you can override per service mappings with each contexts.[contextname].services.[servicename].targetPort
-  selectors:
-    # for each service generated, since scoped by "context" we always
-    # apply the context name to selector label.
-    # Will yield {{contextLabelName}}: {{serviceContext}}
-    contextLabelName: "app-context"
-
-    # additional default selectors to apply to all services beyond
-    # those specified per contexts.[contextName].services.[servicename] declaration
-    defaults: []
-      #- name: "selector-label
-      #  value: "selector-value"
-
-# Defaults for k8s Ingress' that will be generated
-ingress:
-  metadata:
-    # defaults annotations, you can override in each indivdual ingress mapping via
-    # contexts.[contextname].services.[ingressname].mappings.annotations []
-    annotations:
-      - name: "kubernetes.io/ingress.class"
-        value: "traefik"
-
-    # The tls config defined here if enabled, will be applied to each
-    # host in a conduit, unless overriden on a per host declaration
-    tls:
-      enabled: false
-      secretName: ""
-
-    # default labels for the generated Ingress
-    labels: []
-      #- name: "some-label"
-      #  value: "whatever"
-
-  # Configs for behaviors in
-  # contexts.[contextname].services.[ingressname].mappings entries
-  mappings:
-    # if mapping.hosts contain entries where `dns:true` this gives us options
-    # for what Ingress.metadata.labels will or will NOT be applied based on the
-    # value of the `hosts.dns` values
-    hosts:
-      dns:
-        ifTrue:
-          labels:
-            - name: "external-dns"
-              value: "enabled"
-        else:
-          labels:
-            - name: "external-dns"
-              value: "disabled"
-
-
-# Hooks that run, currently only one which is informational
-hooks:
-
-  # The postInstallUpgrade hook sends a summary of the conduits state
-  # that was applied
-  postInstallUpgrade:
-    # Example hook posts to: https://bitsofinfo.slack.com/messages/CE46Z3TJA/
-    # the #bitsofinfo-dev channel
-    webhook_url: https://hooks.slack.com/services/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
