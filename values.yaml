@@ -6,7 +6,7 @@
 # Required:
 conduitname: ""
 
-# optional "classifier" default nothing.
+# Optional "classifier" default nothing.
 # This is a naming modifier for all generated artifacts
 # i.e. [conduitname][-[classifier]]-[contextname]
 # https://github.com/bitsofinfo/appdeploy#convention
@@ -14,8 +14,13 @@ classifier: ""
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# CONDUITS DEFINITIONS:
+# REQUIRED:
+# CONDUITS DEFINITIONS: none by default, you must define
+#
 # Here is where the rubber hits the road and where we define actual "conduits"
+#
+# For an working example see:
+# https://github.com/bitsofinfo/appconduits/blob/master/examples
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 contexts:
 
@@ -23,7 +28,9 @@ contexts:
   # a sub-scope within a "environment". It is just an arbitrary name
   # that you can set to whatever you'd like
   # @see: https://github.com/bitsofinfo/appdeploy#convention
-  stage-qa:
+  # It will be included on generated k8s names
+
+  #some-context-name:
 
     # ---------------------
     # SERVICES
@@ -31,30 +38,34 @@ contexts:
     # Each "service" has a "name" and a set of k8s selectors
     # which define what pods the service will target
     #-----------------------
-    services:
+
+    #services:
 
       # service "name"
-      dog1:
-        # the service's selectors, can be any valid k8s label selectors
-        tls: false
-        selector:
-          app-name: "dogapp"
-          app-version: "1.0.0"
-      dog2:
-        tls: false
-        selector:
-          app-name: "dogapp"
-          app-version: "2.0.0"
-      cat1:
-        tls: false
-        selector:
-          app-name: "catapp"
-          app-version: "1.0.0"
-      cat2:
-        tls: false
-        selector:
-          app-name: "catapp"
-          app-version: "2.0.0"
+      # It will be included on generated k8s names
+      #
+      #service-a:
+
+        # If the port of the app the service is for is other than 80
+        # which is configured in the defaults "service" section below
+        #
+        # port: [otherPort]
+        # targetPort: [otherPort]
+
+        # If the application the service is for exposes TLS or not
+        # optional: default true
+        #
+        #tls: false
+
+        # The service's selectors, can be any valid k8s label selectors
+        # Note: the context selector is ALWAYS applied as such
+        # so you don't need to add it manually
+        # {service.selectors.contextLabelName}: {{$currentContext}}
+        #
+        #selector:
+          #app-name: "somAppName"
+          #app-version: "1.0.0"
+
 
     # ---------------------
     # INGRESSs
@@ -63,104 +74,66 @@ contexts:
     # or more "mappings" which configure host/paths
     # that will configured on the generated Ingress'
     # as well as the 'serviceBindings' for the Ingress
-    # that point back to the named services defined above
+    # that point back to the named "services" defined above
     #-----------------------
-    ingress:
+    #
+    #ingress:
 
-      # Ingress "name"
-      live:
-        mappings:
-          - name: root
-            annotations:
-              traefik.ingress.kubernetes.io/rule-type: Path
-            labels:
-              bitsofinfo-ingress: "yes"
-            hosts:
-              - name: "animals.idontmanagedns.com"
-                dns: false
-              - name: "animals.mydomain.com"
-                dns: true
-            paths:
-              - "/"
-            serviceBindings:
-              dog1: "100%"
+      # ingress "name"
+      # It will be included on generated k8s names
+      #
+      #live:
 
-          - name: dog-paths
-            labels:
-              bitsofinfo-ingress: "yes"
-            hosts:
-              - name: "animals.idontmanagedns.com"
-                dns: false
-              - name: "animals.mydomain.com"
-                dns: true
-            paths:
-              - "/blue"
-              - "/green"
-            serviceBindings:
-              dog1: "100%"
+        # Each ingress can have 1-N "mappings"
+        #
+        #mappings:
 
-          - name: cat-paths
-            labels:
-              bitsofinfo-ingress: "yes"
-            hosts:
-              - name: "animals.idontmanagedns.com"
-                dns: false
-              - name: "animals.mydomain.com"
-                dns: true
-            paths:
-              - "/orange"
-              - "/red"
-            serviceBindings:
-              cat1: "100%"
+          # REQUIRED: arbitrary name
+          # It will be included on generated k8s names
+          #- name: root
 
-      # Ingress "name"
-      canary:
-        mappings:
-          - name: root
-            annotations:
-              traefik.ingress.kubernetes.io/rule-type: Path
-            labels:
-              bitsofinfo-ingress: "yes"
-            hosts:
-              - name: "animals-canary.idontmanagedns.com"
-                dns: false
-              - name: "animals-canary.mydomain.com"
-                dns: true
-            paths:
-              - "/"
-            serviceBindings:
-              dog1: "50%"
-              dog2: "50%"
+          # Optional: One ore more annotations to apply to each Ingress generated
+          #
+          #  annotations:
+          #    traefik.ingress.kubernetes.io/rule-type: Path
 
-          - name: dog-paths
-            labels:
-              bitsofinfo-ingress: "yes"
-            hosts:
-              - name: "animals-canary.idontmanagedns.com"
-                dns: false
-              - name: "animals-canary.mydomain.com"
-                dns: true
-            paths:
-              - "/blue"
-              - "/green"
-            serviceBindings:
-              dog1: "50%"
-              dog2: "50%"
+          # Optional: One or more labels to apply to each Ingress generated
+          #
+          #  labels:
+          #    bitsofinfo-ingress: "yes"
 
-          - name: cat-paths
-            labels:
-              bitsofinfo-ingress: "yes"
-            hosts:
-              - name: "animals-canary.idontmanagedns.com"
-                dns: false
-              - name: "animals-canary.mydomain.com"
-                dns: true
-            paths:
-              - "/orange"
-              - "/red"
-            serviceBindings:
-              cat1: "50%"
-              cat2: "50%"
+          # REQUIRED:
+          # Important!: for each "host" below a separate Ingress
+          # object will be generated explicity for it. Why?
+          # because if you are using a program that consumes
+          # Ingress definitions (i.e like external-dns) that
+          # creates DNS entries for ANY "host" in an ingress
+          # and the only way to filter is via Ingress labels
+          # then having a 1-to-1 between Ingress and Hosts gives
+          # you the ability to cleanly label one Ingress/Host for
+          # consumption for dns automation, and omit it for another one.
+          # If you don't do this, and have many hosts per Ingress
+          # then it becomes hard if not impossible to exclude certain
+          # 'hosts' as candidates for consumption by a tool like
+          # external-dns (at least as of Q2 2019...)
+          # https://github.com/kubernetes-incubator/external-dns/issues/1053
+          #
+          #  hosts:
+          #    - name: "animals.idontmanagedns.com"
+          #      dns: false  # if FALSE then ingress.mappings.hosts.dns.else.labels will be applied
+          #    - name: "animals.mydomain.com"
+          #      dns: true   # if TRUE then ingress.mappings.hosts.dns.ifTrue.labels will be applied
+
+          # OPTIONAL: one or more paths
+          #
+          #  paths:
+          #    - "/"
+
+          # REQUIRED: at least ONE named "service" (above) should be listed
+          # here with a percentage. You can list multiple....
+          #
+          #  serviceBindings:
+          #    service-a: "100%"
 
 
 
@@ -197,6 +170,7 @@ ingress:
   metadata:
     # defaults annotations, you can override in each indivdual ingress mapping via
     # contexts.[contextname].services.[ingressname].mappings.annotations []
+    # TODO: get rid of this default, traefik specific
     annotations:
       - name: "kubernetes.io/ingress.class"
         value: "traefik"
@@ -232,7 +206,6 @@ ingress:
 
 # Hooks that run, currently only one which is informational
 hooks:
-
   # The postInstallUpgrade hook sends a summary of the conduits state
   # that was applied
   postInstallUpgrade:
