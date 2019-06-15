@@ -4,6 +4,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Required:
+# It will be included on generated k8s names
 conduitname: ""
 
 # Optional "classifier" default nothing.
@@ -22,118 +23,122 @@ classifier: ""
 # For an working example see:
 # https://github.com/bitsofinfo/appconduits/blob/master/examples
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-contexts:
+conduits:
 
   # Each set of conduits is scoped within a "context" which is simply
   # a sub-scope within a "environment". It is just an arbitrary name
   # that you can set to whatever you'd like
   # @see: https://github.com/bitsofinfo/appdeploy#convention
   # It will be included on generated k8s names
+  contexts:
 
-  #some-context-name:
-
-    # ---------------------
-    # SERVICES
-    # Here we define one or more named "services"
-    # Each "service" has a "name" and a set of k8s selectors
-    # which define what pods the service will target
-    #-----------------------
-
-    #services:
-
-      # service "name"
-      # It will be included on generated k8s names
-      #
-      #service-a:
-
-        # If the port of the app the service is for is other than 80
-        # which is configured in the defaults "service" section below
-        #
-        # port: [otherPort]
-        # targetPort: [otherPort]
-
-        # If the application the service is for exposes TLS or not
-        # optional: default true
-        #
-        #tls: false
-
-        # The service's selectors, can be any valid k8s label selectors
-        # Note: the context selector is ALWAYS applied as such
-        # so you don't need to add it manually
-        # {service.selectors.contextLabelName}: {{$currentContext}}
-        #
-        #selector:
-          #app-name: "somAppName"
-          #app-version: "1.0.0"
-
-
-    # ---------------------
-    # INGRESSs
-    # Here we define one or more named "Ingress"
-    # Each "ingress" has a "name" and a set of one
-    # or more "mappings" which configure host/paths
-    # that will configured on the generated Ingress'
-    # as well as the 'serviceBindings' for the Ingress
-    # that point back to the named "services" defined above
-    #-----------------------
+    # Context "name"
+    # It will be included on generated k8s names
     #
-    #ingress:
+    #some-context-name:
 
-      # ingress "name"
-      # It will be included on generated k8s names
-      #
-      #live:
+      # ---------------------
+      # SERVICES
+      # Here we define one or more named "services"
+      # Each "service" has a "name" and a set of k8s selectors
+      # which define what pods the service will target
+      #-----------------------
 
-        # Each ingress can have 1-N "mappings"
+      #services:
+
+        # service "name"
+        # It will be included on generated k8s names
         #
-        #mappings:
+        #service-a:
 
-          # REQUIRED: arbitrary name
-          # It will be included on generated k8s names
-          #- name: root
-
-          # Optional: One ore more annotations to apply to each Ingress generated
+          # If the port of the app the service is for is other than 80
+          # which is configured in the defaults "service" section below
           #
-          #  annotations:
-          #    traefik.ingress.kubernetes.io/rule-type: Path
+          # port: [otherPort]
+          # targetPort: [otherPort]
 
-          # Optional: One or more labels to apply to each Ingress generated
+          # If the application the service is for exposes TLS or not
+          # optional: default true
           #
-          #  labels:
-          #    bitsofinfo-ingress: "yes"
+          #tls: false
 
-          # REQUIRED:
-          # Important!: for each "host" below a separate Ingress
-          # object will be generated explicity for it. Why?
-          # because if you are using a program that consumes
-          # Ingress definitions (i.e like external-dns) that
-          # creates DNS entries for ANY "host" in an ingress
-          # and the only way to filter is via Ingress labels
-          # then having a 1-to-1 between Ingress and Hosts gives
-          # you the ability to cleanly label one Ingress/Host for
-          # consumption for dns automation, and omit it for another one.
-          # If you don't do this, and have many hosts per Ingress
-          # then it becomes hard if not impossible to exclude certain
-          # 'hosts' as candidates for consumption by a tool like
-          # external-dns (at least as of Q2 2019...)
-          # https://github.com/kubernetes-incubator/external-dns/issues/1053
+          # The service's selectors, can be any valid k8s label selectors
+          # Note: the context selector is ALWAYS applied as such
+          # so you don't need to add it manually
+          # {service.selectors.contextLabelName}: {{$currentContext}}
           #
-          #  hosts:
-          #    - name: "animals.idontmanagedns.com"
-          #      dns: false  # if FALSE then ingress.mappings.hosts.dns.else.labels will be applied
-          #    - name: "animals.mydomain.com"
-          #      dns: true   # if TRUE then ingress.mappings.hosts.dns.ifTrue.labels will be applied
+          #selector:
+            #app-name: "somAppName"
+            #app-version: "1.0.0"
 
-          # OPTIONAL: one or more paths
-          #
-          #  paths:
-          #    - "/"
 
-          # REQUIRED: at least ONE named "service" (above) should be listed
-          # here with a percentage. You can list multiple....
+      # ---------------------
+      # INGRESSs
+      # Here we define one or more named "Ingress"
+      # Each "ingress" has a "name" and a set of one
+      # or more "mappings" which configure host/paths
+      # that will configured on the generated Ingress'
+      # as well as the 'serviceBindings' for the Ingress
+      # that point back to the named "services" defined above
+      #-----------------------
+      #
+      #ingress:
+
+        # ingress "name"
+        # It will be included on generated k8s names
+        #
+        #live:
+
+          # Each ingress can have 1-N "mappings"
           #
-          #  serviceBindings:
-          #    service-a: "100%"
+          #mappings:
+
+            # REQUIRED: arbitrary name
+            # It will be included on generated k8s names
+            #- name: root
+
+            # Optional: One ore more annotations to apply to each Ingress generated
+            #
+            #  annotations:
+            #    traefik.ingress.kubernetes.io/rule-type: Path
+
+            # Optional: One or more labels to apply to each Ingress generated
+            #
+            #  labels:
+            #    bitsofinfo-ingress: "yes"
+
+            # REQUIRED:
+            # Important!: for each "host" below a separate Ingress
+            # object will be generated explicity for it. Why?
+            # because if you are using a program that consumes
+            # Ingress definitions (i.e like external-dns) that
+            # creates DNS entries for ANY "host" in an ingress
+            # and the only way to filter is via Ingress labels
+            # then having a 1-to-1 between Ingress and Hosts gives
+            # you the ability to cleanly label one Ingress/Host for
+            # consumption for dns automation, and omit it for another one.
+            # If you don't do this, and have many hosts per Ingress
+            # then it becomes hard if not impossible to exclude certain
+            # 'hosts' as candidates for consumption by a tool like
+            # external-dns (at least as of Q2 2019...)
+            # https://github.com/kubernetes-incubator/external-dns/issues/1053
+            #
+            #  hosts:
+            #    - name: "animals.idontmanagedns.com"
+            #      dns: false  # if FALSE then ingress.mappings.hosts.dns.else.labels will be applied
+            #    - name: "animals.mydomain.com"
+            #      dns: true   # if TRUE then ingress.mappings.hosts.dns.ifTrue.labels will be applied
+
+            # OPTIONAL: one or more paths
+            #
+            #  paths:
+            #    - "/"
+
+            # REQUIRED: at least ONE named "service" (above) should be listed
+            # here with a percentage. You can list multiple....
+            #
+            #  serviceBindings:
+            #    service-a: "100%"
 
 
 

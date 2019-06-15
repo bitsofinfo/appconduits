@@ -44,7 +44,7 @@
 {{- /* ---------------------------------------------------------------
       Process Each "context"
 ---------------------------------------------------------------------- */}}
-{{- range $contextName,$context := .Values.contexts -}}
+{{- range $contextName,$context := .Values.conduits.contexts -}}
 
   {{- $autoConduitName := printf "%s-%sNOCLASSIFIER-%s" $conduitname $classifier $contextName }}
   {{- $autoConduitName := $autoConduitName | replace "-NOCLASSIFIER" "" -}}
@@ -350,4 +350,4 @@ spec:
 
 
 
-{{ end }} {{- /* END range $contextName,$context := .Values.contexts */}}
+{{ end }} {{- /* END range $contextName,$context := .Values.conduits.contexts */}}

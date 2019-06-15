@@ -2,147 +2,150 @@
 # EXAMPLE: CONDUITS DEFINITIONS:
 # Here is where the rubber hits the road and where we define actual "conduits"
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-contexts:
+conduits:
 
   # Each set of conduits is scoped within a "context" which is simply
   # a sub-scope within a "environment". It is just an arbitrary name
   # that you can set to whatever you'd like
   # @see: https://github.com/bitsofinfo/appdeploy#convention
-  stage-qa:
+  contexts:
 
-    # ---------------------
-    # SERVICES
-    # Here we define one or more named "services"
-    # Each "service" has a "name" and a set of k8s selectors
-    # which define what pods the service will target
-    #-----------------------
-    services:
+    # Context name
+    stage-qa:
 
-      # service "name"
-      dog1:
-        # the service's selectors, can be any valid k8s label selectors
-        tls: false # default is TRUE if omitted
-        selector:
-          app-name: "dogapp"
-          app-version: "1.0.0"
-      dog2:
-        tls: false # default is TRUE if omitted
-        selector:
-          app-name: "dogapp"
-          app-version: "2.0.0"
-      cat1:
-        tls: false
-        selector:
-          app-name: "catapp"
-          app-version: "1.0.0"
-      cat2:
-        tls: false
-        selector:
-          app-name: "catapp"
-          app-version: "2.0.0"
+      # ---------------------
+      # SERVICES
+      # Here we define one or more named "services"
+      # Each "service" has a "name" and a set of k8s selectors
+      # which define what pods the service will target
+      #-----------------------
+      services:
 
-    # ---------------------
-    # INGRESSs
-    # Here we define one or more named "Ingress"
-    # Each "ingress" has a "name" and a set of one
-    # or more "mappings" which configure host/paths
-    # that will configured on the generated Ingress'
-    # as well as the 'serviceBindings' for the Ingress
-    # that point back to the named services defined above
-    #-----------------------
-    ingress:
+        # service "name"
+        dog1:
+          # the service's selectors, can be any valid k8s label selectors
+          tls: false # default is TRUE if omitted
+          selector:
+            app-name: "dogapp"
+            app-version: "1.0.0"
+        dog2:
+          tls: false # default is TRUE if omitted
+          selector:
+            app-name: "dogapp"
+            app-version: "2.0.0"
+        cat1:
+          tls: false
+          selector:
+            app-name: "catapp"
+            app-version: "1.0.0"
+        cat2:
+          tls: false
+          selector:
+            app-name: "catapp"
+            app-version: "2.0.0"
 
-      # Ingress "name"
-      live:
-        mappings:
-          - name: root
-            annotations:
-              traefik.ingress.kubernetes.io/rule-type: Path
-            labels:
-              bitsofinfo-ingress: "yes"
-            hosts:
-              - name: "animals.idontmanagedns.com"
-                dns: false
-              - name: "animals.mydomain.com"
-                dns: true
-            paths:
-              - "/"
-            serviceBindings:
-              dog1: "100%"
+      # ---------------------
+      # INGRESSs
+      # Here we define one or more named "Ingress"
+      # Each "ingress" has a "name" and a set of one
+      # or more "mappings" which configure host/paths
+      # that will configured on the generated Ingress'
+      # as well as the 'serviceBindings' for the Ingress
+      # that point back to the named services defined above
+      #-----------------------
+      ingress:
 
-          - name: dog-paths
-            labels:
-              bitsofinfo-ingress: "yes"
-            hosts:
-              - name: "animals.idontmanagedns.com"
-                dns: false
-              - name: "animals.mydomain.com"
-                dns: true
-            paths:
-              - "/blue"
-              - "/green"
-            serviceBindings:
-              dog1: "100%"
+        # Ingress "name"
+        live:
+          mappings:
+            - name: root
+              annotations:
+                traefik.ingress.kubernetes.io/rule-type: Path
+              labels:
+                bitsofinfo-ingress: "yes"
+              hosts:
+                - name: "animals.idontmanagedns.com"
+                  dns: false
+                - name: "animals.mydomain.com"
+                  dns: true
+              paths:
+                - "/"
+              serviceBindings:
+                dog1: "100%"
 
-          - name: cat-paths
-            labels:
-              bitsofinfo-ingress: "yes"
-            hosts:
-              - name: "animals.idontmanagedns.com"
-                dns: false
-              - name: "animals.mydomain.com"
-                dns: true
-            paths:
-              - "/orange"
-              - "/red"
-            serviceBindings:
-              cat1: "100%"
+            - name: dog-paths
+              labels:
+                bitsofinfo-ingress: "yes"
+              hosts:
+                - name: "animals.idontmanagedns.com"
+                  dns: false
+                - name: "animals.mydomain.com"
+                  dns: true
+              paths:
+                - "/blue"
+                - "/green"
+              serviceBindings:
+                dog1: "100%"
 
-      # Ingress "name"
-      canary:
-        mappings:
-          - name: root
-            annotations:
-              traefik.ingress.kubernetes.io/rule-type: Path
-            labels:
-              bitsofinfo-ingress: "yes"
-            hosts:
-              - name: "animals-canary.idontmanagedns.com"
-                dns: false
-              - name: "animals-canary.mydomain.com"
-                dns: true
-            paths:
-              - "/"
-            serviceBindings:
-              dog1: "50%"
-              dog2: "50%"
+            - name: cat-paths
+              labels:
+                bitsofinfo-ingress: "yes"
+              hosts:
+                - name: "animals.idontmanagedns.com"
+                  dns: false
+                - name: "animals.mydomain.com"
+                  dns: true
+              paths:
+                - "/orange"
+                - "/red"
+              serviceBindings:
+                cat1: "100%"
 
-          - name: dog-paths
-            labels:
-              bitsofinfo-ingress: "yes"
-            hosts:
-              - name: "animals-canary.idontmanagedns.com"
-                dns: false
-              - name: "animals-canary.mydomain.com"
-                dns: true
-            paths:
-              - "/blue"
-              - "/green"
-            serviceBindings:
-              dog1: "50%"
-              dog2: "50%"
+        # Ingress "name"
+        canary:
+          mappings:
+            - name: root
+              annotations:
+                traefik.ingress.kubernetes.io/rule-type: Path
+              labels:
+                bitsofinfo-ingress: "yes"
+              hosts:
+                - name: "animals-canary.idontmanagedns.com"
+                  dns: false
+                - name: "animals-canary.mydomain.com"
+                  dns: true
+              paths:
+                - "/"
+              serviceBindings:
+                dog1: "50%"
+                dog2: "50%"
 
-          - name: cat-paths
-            labels:
-              bitsofinfo-ingress: "yes"
-            hosts:
-              - name: "animals-canary.idontmanagedns.com"
-                dns: false
-              - name: "animals-canary.mydomain.com"
-                dns: true
-            paths:
-              - "/orange"
-              - "/red"
-            serviceBindings:
-              cat1: "50%"
-              cat2: "50%"
+            - name: dog-paths
+              labels:
+                bitsofinfo-ingress: "yes"
+              hosts:
+                - name: "animals-canary.idontmanagedns.com"
+                  dns: false
+                - name: "animals-canary.mydomain.com"
+                  dns: true
+              paths:
+                - "/blue"
+                - "/green"
+              serviceBindings:
+                dog1: "50%"
+                dog2: "50%"
+
+            - name: cat-paths
+              labels:
+                bitsofinfo-ingress: "yes"
+              hosts:
+                - name: "animals-canary.idontmanagedns.com"
+                  dns: false
+                - name: "animals-canary.mydomain.com"
+                  dns: true
+              paths:
+                - "/orange"
+                - "/red"
+              serviceBindings:
+                cat1: "50%"
+                cat2: "50%"

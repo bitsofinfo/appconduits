@@ -1,3 +1,6 @@
+# 1.0.7
+Scope `contexts` under top level `conduits` in values
+
 # 1.0.6
 Fix: Ingress labels, get rid of `externalDns` change to `ingress.mappings.hosts.dns`
 Readme updates/ examples
