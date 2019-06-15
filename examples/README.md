@@ -110,7 +110,7 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name animals-test-conduits \
-  ../../appconduits \
+  bitsofinfo-appconduits/appconduits --version 1.0.7 \
   --set conduitname="animals" \
   -f example.yaml
 ```
