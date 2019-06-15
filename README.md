@@ -59,7 +59,7 @@ This chart does not deploy application image artifacts. It simply provides a sim
 
 ---
 
-The whole point of `appconduits` is to enable teams to establish well defined and well recognized traffic routes to logical applications who may actually be composed of many different actual deployed application artifacts with every changing versions. By expressing `Service` and `Ingress` relationships and organizing them under the guise of a *conduit*, it decouples the management of how traffic flows to a logical "application" and simplifies the management as they can be manipulated as a single unit manageable as a **Helm release**.
+The whole point of `appconduits` is to enable teams to establish well defined and well recognized traffic routes to logical applications who may actually be composed of many different deployed app artifacts with ever changing versions. By expressing `Service` and `Ingress` relationships and organizing them under the guise of a *conduit*, it decouples the management of how traffic flows to a logical "application" and simplifies the management as these complicated routes can managed as single units via Helm releases.
 
 <a id="diag"></a>![Diagram of appdeploy](/docs/diag.png "Diagram1")
 
