@@ -129,7 +129,7 @@ Lets test the `live` conduits:
 |BLUE dogapp:1.0.0|`curl http://animals.mydomain.com/blue/`|
 |GREEN dogapp:1.0.0|`curl http://animals.mydomain.com/green/`|
 |RED catapp:1.0.0|`curl http://animals.mydomain.com/red/`|
-|ORANGE catapp:1.0.0|`curl http://animals.mydomain.com/orage/`|
+|ORANGE catapp:1.0.0|`curl http://animals.mydomain.com/orange/`|
 
 Lets test the `canary` conduits:
 
@@ -139,7 +139,7 @@ Lets test the `canary` conduits:
 |BLUE dogapp:1.0.0 or 2.0.0|`curl http://animals-canary.mydomain.com/blue/`|
 |GREEN dogapp:1.0.0 or 2.0.0|`curl http://animals-canary.mydomain.com/green/`|
 |RED catapp:1.0.0 or 2.0.0|`curl http://animals-canary.mydomain.com/red/`|
-|ORANGE catapp:1.0.0 or 2.0.0|`curl http://animals-canary.mydomain.com/orage/`|
+|ORANGE catapp:1.0.0 or 2.0.0|`curl http://animals-canary.mydomain.com/orange/`|
 
 
 ## Cleanup:
