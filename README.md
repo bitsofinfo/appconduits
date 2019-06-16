@@ -63,11 +63,6 @@ The whole point of `appconduits` is to enable teams to establish well defined an
 
 <a id="diag"></a>![Diagram of appdeploy](/docs/diag.png "Diagram1")
 
-
-## <a id="alerts"></a>Post install/upgrade/delete checks and alerts
-
-The checking and alerting engine leverages: https://github.com/bitsofinfo/kubernetes-helm-healthcheck-hook
-
 ## <a id="options"></a>Configurable options
 
 All configurable options are documented in [values.yaml](values.yaml)
