@@ -105,13 +105,17 @@ spec:
     {{- range $ingressMapping := $ingress.mappings -}}
 
     {{- /*
-        We need to get a 'sample' from context.services, we can just use the
-        first one, as even if we are going across multiple versions (i.e. split %)
-        any one of the targets will suffice as we just need to inpect the `tls`
-        property from one of them. (see below for targetService.tls)
+        We need to get a 'sample' from context.services, of one of the ingressMapping.serviceBindings
+        we can just use the first one, as even if we are going across multiple versions
+        (i.e. split %) any one of the targets will suffice as we just need to inpect the `tls`
+        property from one of them. (see below for targetService.service.tls). This ASSUMES
+        that if splitting across multiple services, the tls/port settings would be the same
+        across them... otherwise you are doing something a bit strange.
     */}}
-    {{- $firstServiceBindingName := keys $ingressMapping.serviceBindings | first -}}
-    {{- $targetService := pluck $firstServiceBindingName $context.services | first -}}
+    {{- $targetService := dict }}
+    {{- range $serviceBindingName, $percentage := $ingressMapping.serviceBindings -}}
+      {{- $_ := set $targetService "service" (pluck $serviceBindingName $context.services | first) -}}
+    {{- end }}
 
       {{- /*
           Create a separate Ingress per host
@@ -165,11 +169,11 @@ metadata:
     {{ end }}
 
 
-    {{ if hasKey $targetService "tls" }}
-      {{ if not $targetService.tls }}
+    {{ if hasKey $targetService.service "tls" }}
+      {{ if not $targetService.service.tls }}
     ingress.kubernetes.io/protocol: "http"
       {{ else }}
-    ingress.kubernetes.io/protocol: "http"
+    ingress.kubernetes.io/protocol: "https"
       {{ end }}
     {{ else }}
     ingress.kubernetes.io/protocol: "https"
@@ -197,8 +201,8 @@ spec:
           - path: {{ $path }}
             backend:
               serviceName: "{{ $conduitname }}-{{ $contextName }}-{{ $serviceName }}"
-              {{ if $targetService.port }}
-              servicePort: {{ $targetService.port }}
+              {{ if $targetService.service.port }}
+              servicePort: {{ $targetService.service.port }}
               {{ else }}
               servicePort: {{ $defaultServicePort }}
               {{ end }}
@@ -206,8 +210,8 @@ spec:
           {{ else }}
           - backend:
               serviceName: "{{ $conduitname }}-{{ $contextName }}-{{ $serviceName }}"
-              {{ if $targetService.port }}
-              servicePort: {{ $targetService.port }}
+              {{ if $targetService.service.port }}
+              servicePort: {{ $targetService.service.port }}
               {{ else }}
               servicePort: {{ $defaultServicePort }}
               {{ end }}

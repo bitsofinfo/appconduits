@@ -1,3 +1,6 @@
+# 1.0.8
+Fix `$targetService` sample handling when building `Ingress` to only sample from actual service bindings for that ingress
+
 # 1.0.7
 Scope `contexts` under top level `conduits` in values
 
