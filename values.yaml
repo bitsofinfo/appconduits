@@ -214,6 +214,4 @@ hooks:
   # The postInstallUpgrade hook sends a summary of the conduits state
   # that was applied
   postInstallUpgrade:
-    # Example hook posts to: https://bitsofinfo.slack.com/messages/CE46Z3TJA/
-    # the #bitsofinfo-dev channel
-    webhook_url: https://hooks.slack.com/services/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
+    webhook_url: https://hooks.slack.com/services/YOU/NEED/TO/PROVIDE

@@ -30,7 +30,7 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name dogapp-1.0.0 \
-  bitsofinfo-appdeploy/appdeploy --version 1.1.4 \
+  bitsofinfo-appdeploy/appdeploy --version 1.1.5 \
   --set app.name="dogapp" \
   --set image.repository="bitsofinfo/dogapp" \
   --set image.tag="1.0.0" \
@@ -43,7 +43,7 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name dogapp-2.0.0 \
-  bitsofinfo-appdeploy/appdeploy --version 1.1.4 \
+  bitsofinfo-appdeploy/appdeploy --version 1.1.5 \
   --set app.name="dogapp" \
   --set image.repository="bitsofinfo/dogapp" \
   --set image.tag="2.0.0" \
@@ -56,7 +56,7 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name catapp-1.0.0 \
-  bitsofinfo-appdeploy/appdeploy --version 1.1.4 \
+  bitsofinfo-appdeploy/appdeploy --version 1.1.5 \
   --set app.name="catapp" \
   --set image.repository="bitsofinfo/catapp" \
   --set image.tag="1.0.0" \
@@ -69,7 +69,7 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name catapp-2.0.0 \
-  bitsofinfo-appdeploy/appdeploy --version 1.1.4 \
+  bitsofinfo-appdeploy/appdeploy --version 1.1.5 \
   --set app.name="catapp" \
   --set image.repository="bitsofinfo/catapp" \
   --set image.tag="2.0.0" \
@@ -82,7 +82,7 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name hogapp-1.0.0 \
-  bitsofinfo-appdeploy/appdeploy --version 1.1.4 \
+  bitsofinfo-appdeploy/appdeploy --version 1.1.5 \
   --set app.name="hogapp" \
   --set image.repository="bitsofinfo/hogapp" \
   --set image.tag="1.0.0" \
@@ -96,7 +96,7 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name hogapp-2.0.0 \
-  bitsofinfo-appdeploy/appdeploy --version 1.1.4 \
+  bitsofinfo-appdeploy/appdeploy --version 1.1.5 \
   --set app.name="hogapp" \
   --set image.repository="bitsofinfo/hogapp" \
   --set image.tag="2.0.0" \
@@ -140,7 +140,7 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name animals-test-conduits \
-  bitsofinfo-appconduits/appconduits --version 1.0.8 \
+  bitsofinfo-appconduits/appconduits --version 1.0.9 \
   --set conduitname="animals" \
   -f example.yaml
 ```

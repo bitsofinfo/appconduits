@@ -1,3 +1,6 @@
+# 1.0.9
+Remove `webhook_url` from values, in example only
+
 # 1.0.8
 Fix `$targetService` sample handling when building `Ingress` to only sample from actual service bindings for that ingress
 
