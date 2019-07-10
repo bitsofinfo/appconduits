@@ -1,0 +1,27 @@
+FROM nginx
+
+ARG appname=hogapp
+ARG appversion=1.0.0
+
+RUN apt-get update && \
+    apt-get install openssl && \
+    openssl req -newkey rsa:4096 \
+    -x509 \
+    -sha256 \
+    -days 9999 \
+    -nodes \
+    -out /etc/ssl/hogapp.crt \
+    -keyout /etc/ssl/hogapp.key \
+    -subj "/C=US/ST=Washington/L=Bitsofinfo/O=Security/OU=IT Department/CN=hogapp-${appversion}.bitsofinfo-test.com"
+
+RUN openssl dhparam -out /etc/ssl/certs/dhparam.pem 1024
+
+COPY self-signed.conf /etc/ssl/self-signed.conf
+COPY ssl-params.conf /etc/ssl/ssl-params.conf
+COPY server-443.conf /etc/nginx/conf.d/server-443.conf
+
+RUN mkdir /usr/share/nginx/html/brown
+RUN mkdir /usr/share/nginx/html/pink
+RUN echo "welcome to <font color=BROWN>BROWN</font> @ ${appname}:${appversion}" > /usr/share/nginx/html/brown/index.html
+RUN echo "welcome to <font color=PINK>PINK</font> @ ${appname}:${appversion}" > /usr/share/nginx/html/pink/index.html
+RUN echo "welcome to ${appname}:${appversion}" > /usr/share/nginx/html/index.html

@@ -1,0 +1,14 @@
+# Customized values for appdeploy chart for "hogapp"
+# which exposes both 443 and 80
+
+containerPorts:
+  - name: nginx80
+    port: 80
+    service: true
+    ingress: true
+    tls: false
+  - name: nginx443
+    port: 443
+    service: true
+    ingress: true
+    tls: true

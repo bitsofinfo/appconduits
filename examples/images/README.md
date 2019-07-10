@@ -25,4 +25,17 @@ docker push bitsofinfo/catapp:3.0.0
 
 docker build --no-cache --build-arg appname=catapp --build-arg appversion=4.0.0 -t bitsofinfo/catapp:4.0.0 -f Dockerfile.catapp .
 docker push bitsofinfo/catapp:4.0.0
+
+
+docker build --no-cache --build-arg appname=hogapp --build-arg appversion=1.0.0 -t bitsofinfo/hogapp:1.0.0 -f Dockerfile.hogapp .
+docker push bitsofinfo/hogapp:1.0.0
+
+docker build --no-cache --build-arg appname=hogapp --build-arg appversion=2.0.0 -t bitsofinfo/hogapp:2.0.0 -f Dockerfile.hogapp .
+docker push bitsofinfo/hogapp:2.0.0
+
+docker build --no-cache --build-arg appname=hogapp --build-arg appversion=3.0.0 -t bitsofinfo/hogapp:3.0.0 -f Dockerfile.hogapp .
+docker push bitsofinfo/hogapp:3.0.0
+
+docker build --no-cache --build-arg appname=hogapp --build-arg appversion=4.0.0 -t bitsofinfo/hogapp:4.0.0 -f Dockerfile.hogapp .
+docker push bitsofinfo/hogapp:4.0.0
 ```

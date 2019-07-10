@@ -6,12 +6,10 @@ This should be enough to get your feet wet.
 
 ## Setup
 
-Add to your local `/etc/hosts` (unless you have DNS setup)
-```
-[bitsofinfo-traefik-controller-lb-ip] bitsofinfo-traefik.test.local myapp-stage-context1-latest-80.local dogapp-stage-qa-1-0-0-80.local dogapp-stage-qa-2-0-0-80.local catapp-stage-qa-1-0-0-80.local catapp-stage-qa-2-0-0-80.local animals-canary.idontmanagedns.com animals.idontmanagedns.com animals-canary.mydomain.com animals.mydomain.com
-```
+Add to your local `/etc/hosts` (unless you have DNS setup) the contents of [hosts.txt](hosts.txt)
 
-**IMPORTANT!:** Before we continue we need to setup an `IngressController` [lets use Traefik, click here for setup instructions](https://github.com/bitsofinfo/appdeploy/blob/master/examples/TRAEFIK_SETUP.md)
+**IMPORTANT!:**
+Before we continue we need to setup an `IngressController` [lets use Traefik, click here for setup instructions](https://github.com/bitsofinfo/appdeploy/blob/master/examples/TRAEFIK_SETUP.md)
 
 Next, ensure the following Helm repos exists on your machine:
 ```
@@ -32,7 +30,7 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name dogapp-1.0.0 \
-  bitsofinfo-appdeploy/appdeploy --version 1.0.1 \
+  bitsofinfo-appdeploy/appdeploy --version 1.1.4 \
   --set app.name="dogapp" \
   --set image.repository="bitsofinfo/dogapp" \
   --set image.tag="1.0.0" \
@@ -45,7 +43,7 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name dogapp-2.0.0 \
-  bitsofinfo-appdeploy/appdeploy --version 1.0.1 \
+  bitsofinfo-appdeploy/appdeploy --version 1.1.4 \
   --set app.name="dogapp" \
   --set image.repository="bitsofinfo/dogapp" \
   --set image.tag="2.0.0" \
@@ -58,7 +56,7 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name catapp-1.0.0 \
-  bitsofinfo-appdeploy/appdeploy --version 1.0.1 \
+  bitsofinfo-appdeploy/appdeploy --version 1.1.4 \
   --set app.name="catapp" \
   --set image.repository="bitsofinfo/catapp" \
   --set image.tag="1.0.0" \
@@ -71,11 +69,39 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name catapp-2.0.0 \
-  bitsofinfo-appdeploy/appdeploy --version 1.0.1 \
+  bitsofinfo-appdeploy/appdeploy --version 1.1.4 \
   --set app.name="catapp" \
   --set image.repository="bitsofinfo/catapp" \
   --set image.tag="2.0.0" \
   -f testapps.yaml
+```
+
+hogapp:1.0.0 (note! we also apply `hogapp.yaml`)
+```
+helm install \
+  --debug \
+  --namespace bitsofinfo-apps \
+  --name hogapp-1.0.0 \
+  bitsofinfo-appdeploy/appdeploy --version 1.1.4 \
+  --set app.name="hogapp" \
+  --set image.repository="bitsofinfo/hogapp" \
+  --set image.tag="1.0.0" \
+  -f testapps.yaml \
+  -f hogapp.yaml
+```
+
+hogapp:2.0.0 (note! we also apply `hogapp.yaml`)
+```
+helm install \
+  --debug \
+  --namespace bitsofinfo-apps \
+  --name hogapp-2.0.0 \
+  bitsofinfo-appdeploy/appdeploy --version 1.1.4 \
+  --set app.name="hogapp" \
+  --set image.repository="bitsofinfo/hogapp" \
+  --set image.tag="2.0.0" \
+  -f testapps.yaml \
+  -f hogapp.yaml
 ```
 
 Wait for the installs to complete:
@@ -97,6 +123,10 @@ curl http://dogapp-stage-qa-1-0-0-80.local
 curl http://dogapp-stage-qa-2-0-0-80.local
 curl http://catapp-stage-qa-1-0-0-80.local
 curl http://catapp-stage-qa-2-0-0-80.local
+curl http://hogapp-stage-qa-1-0-0-80.local
+curl http://hogapp-stage-qa-2-0-0-80.local
+curl http://hogapp-stage-qa-1-0-0-443.local
+curl http://hogapp-stage-qa-2-0-0-443.local
 ```
 
 ## Apply the conduits for the apps
@@ -110,7 +140,7 @@ helm install \
   --debug \
   --namespace bitsofinfo-apps \
   --name animals-test-conduits \
-  bitsofinfo-appconduits/appconduits --version 1.0.7 \
+  bitsofinfo-appconduits/appconduits --version 1.0.8 \
   --set conduitname="animals" \
   -f example.yaml
 ```
@@ -130,6 +160,8 @@ Lets test the `live` conduits:
 |GREEN dogapp:1.0.0|`curl http://animals.mydomain.com/green/`|
 |RED catapp:1.0.0|`curl http://animals.mydomain.com/red/`|
 |ORANGE catapp:1.0.0|`curl http://animals.mydomain.com/orange/`|
+|BROWN hogapp:1.0.0|`curl http://animals.mydomain.com/brown/`|
+|PINK hogapp:1.0.0|`curl http://animals.mydomain.com/pink/`|
 
 Lets test the `canary` conduits:
 
@@ -140,6 +172,8 @@ Lets test the `canary` conduits:
 |GREEN dogapp:1.0.0 or 2.0.0|`curl http://animals-canary.mydomain.com/green/`|
 |RED catapp:1.0.0 or 2.0.0|`curl http://animals-canary.mydomain.com/red/`|
 |ORANGE catapp:1.0.0 or 2.0.0|`curl http://animals-canary.mydomain.com/orange/`|
+|BROWN hogapp:1.0.0 or 2.0.0|`curl http://animals-canary.mydomain.com/brown/`|
+|PINK hogapp:1.0.0 or 2.0.0|`curl http://animals-canary.mydomain.com/pink/`|
 
 
 ## Cleanup:
@@ -148,6 +182,8 @@ helm delete --purge catapp-1.0.0 &
 helm delete --purge catapp-2.0.0 &
 helm delete --purge dogapp-1.0.0 &
 helm delete --purge dogapp-2.0.0 &
+helm delete --purge hogapp-1.0.0 &
+helm delete --purge hogapp-2.0.0 &
 helm delete --purge animals-test-conduits &
 helm delete --purge bitsofinfo-traefik
 

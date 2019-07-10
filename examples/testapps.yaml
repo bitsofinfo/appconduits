@@ -1,4 +1,5 @@
 # Customized values for appdeploy chart
+# common items for all app
 
 app:
   environment: "stage"
@@ -22,17 +23,20 @@ healthcheck:
     scheme: HTTP
 
 hooks:
-  postInstallUpgrade:
-    useIngressHost: false
-    checksConfig:
-      - name: "/"
-        path: "/"
-        method: "GET"
-        timeout: 5
-        retries: 15
-        tags: ["80"]
-  postDelete:
-    useIngressHost: false
+  default:
+    postInstallUpgrade:
+      validator:
+        useIngressHost: false
+        checksConfig:
+          - name: "/"
+            path: /
+            method: GET
+            timeout: 5
+            retries: 15
+            tags: ["80"]
+    postDelete:
+      validator:
+        useIngressHost: false
 
 ingress:
   metadata:

@@ -216,4 +216,4 @@ hooks:
   postInstallUpgrade:
     # Example hook posts to: https://bitsofinfo.slack.com/messages/CE46Z3TJA/
     # the #bitsofinfo-dev channel
-    webhook_url: https://hooks.slack.com/services/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
+    webhook_url: https://hooks.slack.com/services/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

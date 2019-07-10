@@ -44,6 +44,25 @@ conduits:
             app-name: "catapp"
             app-version: "2.0.0"
 
+        # since "hogapp" exposes 2 ports
+        # we need to explicitly denote the port
+        # we want the generated "service" to target
+        # (default is 80 @see values.yaml for defaults)
+        hog1:
+          port: 443
+          targetPort: 443
+          tls: true
+          selector:
+            app-name: "hogapp"
+            app-version: "1.0.0"
+        hog2:
+          port: 443
+          targetPort: 443
+          tls: true
+          selector:
+            app-name: "hogapp"
+            app-version: "2.0.0"
+
       # ---------------------
       # INGRESSs
       # Here we define one or more named "Ingress"
@@ -101,6 +120,20 @@ conduits:
               serviceBindings:
                 cat1: "100%"
 
+            - name: hog-paths
+              labels:
+                bitsofinfo-ingress: "yes"
+              hosts:
+                - name: "animals.idontmanagedns.com"
+                  dns: false
+                - name: "animals.mydomain.com"
+                  dns: true
+              paths:
+                - "/brown"
+                - "/pink"
+              serviceBindings:
+                hog1: "100%"
+
         # Ingress "name"
         canary:
           mappings:
@@ -149,3 +182,18 @@ conduits:
               serviceBindings:
                 cat1: "50%"
                 cat2: "50%"
+
+            - name: hog-paths
+              labels:
+                bitsofinfo-ingress: "yes"
+              hosts:
+                - name: "animals-canary.idontmanagedns.com"
+                  dns: false
+                - name: "animals-canary.mydomain.com"
+                  dns: true
+              paths:
+                - "/brown"
+                - "/pink"
+              serviceBindings:
+                hog1: "50%"
+                hog2: "50%"
