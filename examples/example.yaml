@@ -1,3 +1,8 @@
+hooks:
+  postInstallUpgrade:
+    # INTENTIONALLY PUBLIC FOR THIS EXAMPLE!
+    webhook_url: https://hooks.slack.com/services/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
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXAMPLE: CONDUITS DEFINITIONS:
 # Here is where the rubber hits the road and where we define actual "conduits"
