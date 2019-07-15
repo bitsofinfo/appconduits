@@ -16,6 +16,7 @@ Although this chart can be used on its own and send traffic to any deployed appl
 * [Examples](examples/)
 * [Using as a dependency](#dependency)
 * [Packaging/Using](#pack)
+* [Related projects](#related)
 
 # <a id="convention"></a>Conventions
 
@@ -126,3 +127,8 @@ dependencies:
   version: "1.0.9"
   repository: "https://raw.githubusercontent.com/bitsofinfo/appconduits/master/repo"
 ```
+
+# <a id="related"></a>Related Projects
+
+* [appconduits](https://github.com/bitsofinfo/appconduits)
+* [helmfile-deploy](https://github.com/bitsofinfo/helmfile-deploy)
