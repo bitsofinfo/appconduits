@@ -1,3 +1,6 @@
+# 1.0.10
+Fix default values `ingress.tls` and added `host` level `tls` override for `secretName` and `enabled`
+
 # 1.0.9
 Remove `webhook_url` from values, in example only
 

@@ -124,7 +124,7 @@ helm repo update
 # requirements.yaml
 dependencies:
 - name: appconduits
-  version: "1.0.9"
+  version: "1.0.10"
   repository: "https://raw.githubusercontent.com/bitsofinfo/appconduits/master/repo"
 ```
 

@@ -17,7 +17,6 @@
 {{- $classifier := .Values.classifier -}}
 {{- $ingressDefaults := .Values.ingress }}
 {{- $defaultIngressLabels := $ingressDefaults.metadata.labels -}}
-{{- $defaultIngressTls := $ingressDefaults.tls -}}
 {{- $defaultIngressAnnotations := $ingressDefaults.metadata.annotations -}}
 {{- $hooks := .Values.hooks -}}
 
@@ -124,8 +123,16 @@ spec:
           which lets us properly label it for external-dns as to be
           created or not as by default (unless excluded by an external-dns label)
           ALL Ingresses are consumed into DNS...
+
+          https://github.com/kubernetes-incubator/external-dns/issues/1053
       */}}
       {{ range $host := $ingressMapping.hosts -}}
+
+      {{- /* Each 'host' entry can override TLS settings lets */}}
+      {{ $tlsSettings := dict }}
+      {{ $tlsSettings := hasKey $ingressDefaults "tls" | ternary (mergeOverwrite $tlsSettings ($ingressDefaults.tls)) $tlsSettings }}
+      {{ $tlsSettings := hasKey $host "tls" | ternary (mergeOverwrite $tlsSettings ($host.tls)) $tlsSettings }}
+
 
       {{ $ingressK8sName := printf "%s.%sNOCLASSIFIER.%s.%s--%s" $conduitname $classifier $ingressName $ingressMapping.name $host.name }}
       {{- $ingressK8sName := $ingressK8sName | replace ".NOCLASSIFIER" "" -}}
@@ -185,11 +192,11 @@ metadata:
       {{ end }}
 
 spec:
-  {{ if $defaultIngressTls.enabled }}
+  {{ if $tlsSettings.enabled }}
   tls:
     - hosts:
       - {{ $host.name }}
-      secretName: {{ $defaultIngressTls.secretName }}
+      secretName: {{ $tlsSettings.secretName }}
   {{ end }}
   rules:
     - host: {{ $host.name }}

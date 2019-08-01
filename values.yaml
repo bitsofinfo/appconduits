@@ -126,8 +126,16 @@ conduits:
             #  hosts:
             #    - name: "animals.idontmanagedns.com"
             #      dns: false  # if FALSE then ingress.mappings.hosts.dns.else.labels will be applied
+            #
             #    - name: "animals.mydomain.com"
             #      dns: true   # if TRUE then ingress.mappings.hosts.dns.ifTrue.labels will be applied
+            #      tls:
+            #        secretName: "custom-secret-name" # overrides ingress.tls.secretName default
+            #
+            #    - name: "nontlsanimals.mydomain.com"
+            #      dns: true   # if TRUE then ingress.mappings.hosts.dns.ifTrue.labels will be applied
+            #      tls:
+            #        enabled: false # tls off
 
             # OPTIONAL: one or more paths
             #
@@ -180,16 +188,17 @@ ingress:
       - name: "kubernetes.io/ingress.class"
         value: "traefik"
 
-    # The tls config defined here if enabled, will be applied to each
-    # host in a conduit, unless overriden on a per host declaration
-    tls:
-      enabled: false
-      secretName: ""
-
     # default labels for the generated Ingress
     labels: []
       #- name: "some-label"
       #  value: "whatever"
+
+  # The tls config defined here if enabled, will be applied to each
+  # host in a conduit, unless overriden on a per host declaration
+  # under the "conduits..ingress.mappings" structures above
+  tls:
+    enabled: false
+    secretName: ""
 
   # Configs for behaviors in
   # contexts.[contextname].services.[ingressname].mappings entries
