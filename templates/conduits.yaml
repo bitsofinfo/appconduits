@@ -146,8 +146,8 @@ metadata:
   namespace: {{ $namespace }}
   name: "{{ $ingressK8sName }}"
   labels:
-  {{- range $label := $defaultIngressLabels }}
-    "{{ $label.name }}": "{{ $label.value }}"
+  {{- range $labelName,$labelValue := $defaultIngressLabels }}
+    "{{ $labelName }}": "{{ $labelValue }}"
   {{- end }}
   {{ if and $ingressMapping.labels }}
     {{- range $key, $value := $ingressMapping.labels }}
@@ -156,22 +156,22 @@ metadata:
   {{ end }}
   {{ include "stdlabels.tpl" $stdlabelsargs | indent 4 }}
   annotations:
-    {{- range $annotation := $defaultIngressAnnotations }}
-    "{{ $annotation.name }}": "{{ $annotation.value }}"
+    {{- range $annotationName,$annotationValue := $defaultIngressAnnotations }}
+    "{{ $annotationName }}": "{{ $annotationValue }}"
     {{- end }}
     {{ if and $ingressMapping.annotations }}
     {{- range $key, $value := $ingressMapping.annotations }}
-    {{ $key }}: "{{ $value }}"
+    "{{ $key }}": "{{ $value }}"
     {{- end }}
     {{ end }}
 
     {{ if and (hasKey $host "dns") (not $host.dns) }}
-      {{ range $label := $ingressDefaults.mappings.hosts.dns.else.labels }}
-    "{{$label.name}}": "{{$label.value}}"
+      {{ range $annotation := $ingressDefaults.mappings.hosts.dns.else.annotations }}
+    "{{$annotation.name}}": "{{$annotation.value}}"
       {{ end }}
     {{ else }}
-      {{ range $label := $ingressDefaults.mappings.hosts.dns.ifTrue.labels }}
-    "{{$label.name}}": "{{$label.value}}"
+      {{ range $annotation := $ingressDefaults.mappings.hosts.dns.ifTrue.annotations }}
+    "{{$annotation.name}}": "{{$annotation.value}}"
       {{ end }}
     {{ end }}
 

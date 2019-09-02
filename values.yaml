@@ -181,17 +181,21 @@ service:
 # Defaults for k8s Ingress' that will be generated
 ingress:
   metadata:
-    # defaults annotations, you can override in each indivdual ingress mapping via
+
+    # defaults labels, you can add more in each indivdual ingress mapping via
+    # contexts.[contextname].services.[ingressname].mappings.labels []
+    # tpl variable substitution supported in values here. See README
+    labels:
+      #"label/name1": "something" # PARSED by Helm 'tpl' function passed $
+      #labelName2: "something" # PARSED by Helm 'tpl' function passed $
+
+    # defaults annotations, you can add more in each indivdual ingress mapping via
     # contexts.[contextname].services.[ingressname].mappings.annotations []
     # TODO: get rid of this default, traefik specific
+    # tpl variable substitution supported in values here. See README
     annotations:
-      - name: "kubernetes.io/ingress.class"
-        value: "traefik"
-
-    # default labels for the generated Ingress
-    labels: []
-      #- name: "some-label"
-      #  value: "whatever"
+      kubernetes.io/ingress.class: "traefik"
+      #annotationName2: "something" # PARSED by Helm 'tpl' function passed $
 
   # The tls config defined here if enabled, will be applied to each
   # host in a conduit, unless overriden on a per host declaration
@@ -204,16 +208,16 @@ ingress:
   # contexts.[contextname].services.[ingressname].mappings entries
   mappings:
     # if mapping.hosts contain entries where `dns:true` this gives us options
-    # for what Ingress.metadata.labels will or will NOT be applied based on the
+    # for what Ingress.metadata.annotations will or will NOT be applied based on the
     # value of the `hosts.dns` values
     hosts:
       dns:
         ifTrue:
-          labels:
+          annotations:
             - name: "external-dns"
               value: "enabled"
         else:
-          labels:
+          annotations:
             - name: "external-dns"
               value: "disabled"
 
