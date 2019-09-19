@@ -136,6 +136,10 @@ conduits:
             #      dns: true   # if TRUE then ingress.mappings.hosts.dns.ifTrue.labels will be applied
             #      tls:
             #        enabled: false # tls off
+            #      annotations:   # optional annotations for this HOST only
+            #        key: "value"
+            #      labels:        # optional labels for this HOST only
+            #        key: "value"
 
             # OPTIONAL: one or more paths
             #

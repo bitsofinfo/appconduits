@@ -154,6 +154,11 @@ metadata:
     "{{ $key }}": "{{ $value }}"
     {{- end }}
   {{ end }}
+  {{ if and $host.labels }}
+    {{- range $key, $value := $host.labels }}
+    "{{ $key }}": "{{ $value }}"
+    {{- end }}
+  {{ end }}
   {{ include "stdlabels.tpl" $stdlabelsargs | indent 4 }}
   annotations:
     {{- range $annotationName,$annotationValue := $defaultIngressAnnotations }}
@@ -161,6 +166,11 @@ metadata:
     {{- end }}
     {{ if and $ingressMapping.annotations }}
     {{- range $key, $value := $ingressMapping.annotations }}
+    "{{ $key }}": "{{ $value }}"
+    {{- end }}
+    {{ end }}
+    {{ if and $host.annotations }}
+    {{- range $key, $value := $host.annotations }}
     "{{ $key }}": "{{ $value }}"
     {{- end }}
     {{ end }}

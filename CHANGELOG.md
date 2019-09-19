@@ -1,3 +1,6 @@
+# 1.0.12
+* Added support for `annotations` and `labels` to be defined per ingress mapping `host` array entry
+
 # 1.0.11
 * **BREAKING CHANGE:** Changed `ingress.metadata.annotations` and `ingress.metadata.labels` from a list to key-value pairs
 * **BREAKING CHANGE:** Fixed `ingress.mappings.hosts.dns.ifTrue.labels` and `ingress.mappings.hosts.dns.else.labels` to be properly named as `ingress.mappings.hosts.dns.ifTrue.annotations` and `ingress.mappings.hosts.dns.else.annotations`
