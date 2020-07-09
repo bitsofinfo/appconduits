@@ -140,7 +140,7 @@ spec:
       {{- $ingressK8sName := $ingressK8sName | replace ".%!s(<nil>)" "" -}}
 
 # INGRESS
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   namespace: {{ $namespace }}

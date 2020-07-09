@@ -1,3 +1,6 @@
+# TBD
+* change ingress to `networking.k8s.io/v1beta1`
+  
 # 1.0.12
 * Added support for `annotations` and `labels` to be defined per ingress mapping `host` array entry
 
