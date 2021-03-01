@@ -220,21 +220,43 @@ spec:
           {{ range $path := $ingressMapping.paths -}}
           - path: {{ $path }}
             backend:
+              {{ if eq $ingressDefaults.k8sApiVersion "networking.k8s.io/v1" }}
+              service:
+                name: "{{ $conduitname }}-{{ $contextName }}-{{ $serviceName }}"
+                port:
+                  {{ if $targetService.service.port }}
+                  number: {{ $targetService.service.port }}
+                  {{ else }}
+                  number: {{ $defaultServicePort }}
+                  {{ end }}
+              {{ else }}
               serviceName: "{{ $conduitname }}-{{ $contextName }}-{{ $serviceName }}"
               {{ if $targetService.service.port }}
               servicePort: {{ $targetService.service.port }}
               {{ else }}
               servicePort: {{ $defaultServicePort }}
               {{ end }}
+              {{ end }}
             {{ if $ingressDefaults.pathType }}pathType: {{ $ingressDefaults.pathType }}{{ end }}
           {{ end }}
           {{ else }}
           - backend:
+              {{ if eq $ingressDefaults.k8sApiVersion "networking.k8s.io/v1" }}
+              service:
+                name: "{{ $conduitname }}-{{ $contextName }}-{{ $serviceName }}"
+                port:
+                  {{ if $targetService.service.port }}
+                  number: {{ $targetService.service.port }}
+                  {{ else }}
+                  number: {{ $defaultServicePort }}
+                  {{ end }}
+              {{ else }}
               serviceName: "{{ $conduitname }}-{{ $contextName }}-{{ $serviceName }}"
               {{ if $targetService.service.port }}
               servicePort: {{ $targetService.service.port }}
               {{ else }}
               servicePort: {{ $defaultServicePort }}
+              {{ end }}
               {{ end }}
             {{ if $ingressDefaults.pathType }}pathType: {{ $ingressDefaults.pathType }}{{ end }}
           {{ end }}
