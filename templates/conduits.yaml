@@ -39,7 +39,6 @@
 {{- end }}
 
 
-
 {{- /* ---------------------------------------------------------------
       Process Each "context"
 ---------------------------------------------------------------------- */}}
@@ -51,7 +50,6 @@
   {{- $autoConduitName := $autoConduitName | replace "-%!s(<nil>)" "" -}}
 
   {{- $tmp := set $stdlabelsargs "autoConduitName" $autoConduitName }}
-
 
   {{- /* ---------------------------------------------------------------
         For each "service" within the $context we create a
@@ -140,7 +138,7 @@ spec:
       {{- $ingressK8sName := $ingressK8sName | replace ".%!s(<nil>)" "" -}}
 
 # INGRESS
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: {{ $ingressDefaults.k8sApiVersion }}
 kind: Ingress
 metadata:
   namespace: {{ $namespace }}
@@ -202,6 +200,11 @@ metadata:
       {{ end }}
 
 spec:
+
+  {{ if $ingressDefaults.ingressClassName }}
+  ingressClassName: {{ $ingressDefaults.ingressClassName }}
+  {{ end }}
+
   {{ if $tlsSettings.enabled }}
   tls:
     - hosts:
@@ -223,6 +226,7 @@ spec:
               {{ else }}
               servicePort: {{ $defaultServicePort }}
               {{ end }}
+            {{ if $ingressDefaults.pathType }}pathType: {{ $ingressDefaults.pathType }}{{ end }}
           {{ end }}
           {{ else }}
           - backend:
@@ -232,6 +236,7 @@ spec:
               {{ else }}
               servicePort: {{ $defaultServicePort }}
               {{ end }}
+            {{ if $ingressDefaults.pathType }}pathType: {{ $ingressDefaults.pathType }}{{ end }}
           {{ end }}
           {{ end }}
 ---

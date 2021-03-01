@@ -49,10 +49,8 @@ hooks:
 ingress:
   metadata:
     annotations:
-      - name: "kubernetes.io/ingress.class"
-        value: "traefik"
+      kubernetes.io/ingress.class: "traefik"
     dns:
       fqdnSuffix: ".local"
     labels:
-      - name: "bitsofinfo-ingress"
-        value: "yes"
+      bitsofinfo-ingress: "yes"

@@ -1,7 +1,10 @@
-# TBD
-* change ingress to `networking.k8s.io/v1beta1`
+# 1.1.0
+* added value `ingress.k8sApiVersion` default to `networking.k8s.io/v1beta1`
+* added value `ingress.pathType` default to nothing, can only be used against k8s 1.18+
+* added value `ingress.ingressClassName` defaults to nothing `""`, can only be used against k8s 1.18+
   
 # 1.0.12
+* change ingress to `networking.k8s.io/v1beta1`
 * Added support for `annotations` and `labels` to be defined per ingress mapping `host` array entry
 
 # 1.0.11
