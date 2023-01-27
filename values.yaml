@@ -146,6 +146,12 @@ conduits:
             #  paths:
             #    - "/"
 
+            # OPTIONAL: pathType
+            # allowed values: ImplementationSpecific, Exact, Prefix
+            # https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types
+            #
+            #  pathType: ""
+
             # REQUIRED: at least ONE named "service" (above) should be listed
             # here with a percentage. You can list multiple....
             #

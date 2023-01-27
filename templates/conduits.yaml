@@ -237,7 +237,13 @@ spec:
               servicePort: {{ $defaultServicePort }}
               {{ end }}
               {{ end }}
-            {{ if $ingressDefaults.pathType }}pathType: {{ $ingressDefaults.pathType }}{{ end }}
+            {{ if $ingressMapping.pathType }}
+            pathType: {{ $ingressMapping.pathType }}
+            {{ else if $ingressDefaults.pathType }}
+            pathType: "{{ $ingressDefaults.pathType }}"
+            {{ else }}
+            
+            {{ end }}
           {{ end }}
           {{ else }}
           - backend:
