@@ -186,12 +186,12 @@ metadata:
 
     {{ if hasKey $targetService.service "tls" }}
       {{ if not $targetService.service.tls }}
-    ingress.kubernetes.io/protocol: "http"
+    {{ $ingressDefaults.backendProtocolAnnotationKey }}: "http"
       {{ else }}
-    ingress.kubernetes.io/protocol: "https"
+    {{ $ingressDefaults.backendProtocolAnnotationKey }}: "https"
       {{ end }}
     {{ else }}
-    ingress.kubernetes.io/protocol: "https"
+    {{ $ingressDefaults.backendProtocolAnnotationKey }}: "https"
     {{ end }}
 
     traefik.ingress.kubernetes.io/service-weights: |
