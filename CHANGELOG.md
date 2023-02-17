@@ -1,5 +1,9 @@
+# 1.1.3
+* added value `ingress.backendProtocolAnnotationKey` default to `ingress.kubernetes.io`
+
 # 1.1.2
 * Add support for pathType in ingress mappings
+
 # 1.1.1
 * Handle `rule[].backend` service yaml schema changes when `ingress.k8sApiVersion = networking.k8s.io/v1` see: https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.19.md#v1190
 # 1.1.0
