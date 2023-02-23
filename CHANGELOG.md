@@ -1,3 +1,6 @@
+# 1.1.4
+* Fix `ingress.backendProtocolAnnotationKey` default value
+
 # 1.1.3
 * added value `ingress.backendProtocolAnnotationKey` default to `ingress.kubernetes.io`
 
