@@ -187,6 +187,19 @@ service:
     defaults: []
       #- name: "selector-label
       #  value: "selector-value"
+  metadata:
+
+    # default labels
+    # tpl variable substitution supported in values here. See README
+    labels:
+      #"label/name1": "something" # PARSED by Helm 'tpl' function passed $
+      #labelName2: "something" # PARSED by Helm 'tpl' function passed $
+
+    # default annotations
+    # tpl variable substitution supported in values here. See README
+    annotations:
+      #annotationName1: "something" # PARSED by Helm 'tpl' function passed $
+
 
 # Defaults for all k8s Ingress objects that will be generated
 ingress:

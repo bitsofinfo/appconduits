@@ -13,6 +13,8 @@
 {{- $defaultServicePort := .Values.service.port -}}
 {{- $defaultServiceSelectors := .Values.service.selectors -}}
 {{- $defaultServiceTargetPort := .Values.service.targetPort -}}
+{{- $defaultServiceLabels := .Values.service.metadata.labels -}}
+{{- $defaultServiceAnnotations := .Values.service.metadata.annotations -}}
 {{- $namespace := .Release.Namespace -}}
 {{- $classifier := .Values.classifier -}}
 {{- $ingressDefaults := .Values.ingress }}
@@ -57,7 +59,7 @@
   ---------------------------------------------------------------------- */}}
   {{- range $serviceName, $service := $context.services -}}
 
-# SERVICE {{ $contextName}} -> {{ $serviceName }}
+# SERVICE {{ $contextName }} -> {{ $serviceName }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -65,6 +67,15 @@ metadata:
   name: "{{ $conduitname }}-{{ $contextName }}-{{ $serviceName }}"
   labels:
     {{ include "stdlabels.tpl" $stdlabelsargs | indent 4 }}
+    {{- range $labelName,$labelValue := $defaultServiceLabels }}
+    "{{ tpl $labelName $ }}": "{{ tpl $labelValue $ }}"
+    {{- end }}
+  {{ if $defaultServiceAnnotations }}
+  annotations:
+    {{- range $annotationName,$annotationValue := $defaultServiceAnnotations }}
+    "{{ tpl $annotationName $ }}": "{{ tpl $annotationValue $ }}"
+    {{- end }}
+  {{ end }}
 spec:
   selector:
     "{{$defaultServiceSelectors.contextLabelName}}": "{{$contextName}}"
