@@ -1,3 +1,6 @@
+# 1.2.0
+* Add support for default service labels and annotations
+
 # 1.1.4
 * Fix `ingress.backendProtocolAnnotationKey` default value
 
