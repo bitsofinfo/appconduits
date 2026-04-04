@@ -212,8 +212,12 @@ metadata:
 
 spec:
 
-  {{ if $ingressDefaults.ingressClassName }}
+
+  {{ if $ingressMapping.ingressClassName }}
+  ingressClassName: {{ $ingressMapping.ingressClassName }}
+  {{ else if $ingressDefaults.ingressClassName }}
   ingressClassName: {{ $ingressDefaults.ingressClassName }}
+  {{ else }}
   {{ end }}
 
   {{ if $tlsSettings.enabled }}

@@ -107,6 +107,11 @@ conduits:
             #  labels:
             #    bitsofinfo-ingress: "yes"
 
+            # Optional: ingressClassName to apply to each Ingress generated
+            # this CANNOT co-exist w/ annotation "kubernetes.io/ingress.class"
+            #
+            #  ingressClassName: ""
+
             # REQUIRED:
             # Important!: for each "host" below a separate Ingress
             # object will be generated explicity for it. Why?
