@@ -240,7 +240,7 @@ ingress:
     # TODO: get rid of this default, traefik specific
     # tpl variable substitution supported in values here. See README
     annotations:
-      kubernetes.io/ingress.class: "traefik"
+      #kubernetes.io/ingress.class: "traefik"
       #annotationName2: "something" # PARSED by Helm 'tpl' function passed $
 
   # The tls config defined here if enabled, will be applied to each
