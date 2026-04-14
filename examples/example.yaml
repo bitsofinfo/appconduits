@@ -202,3 +202,8 @@ conduits:
               serviceBindings:
                 hog1: "50%"
                 hog2: "50%"
+
+ingress:
+  metadata:
+    annotations:
+      kubernetes.io/ingress.class: "traefik"
