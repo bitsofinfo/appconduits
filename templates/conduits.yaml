@@ -171,16 +171,19 @@ metadata:
   {{ include "stdlabels.tpl" $stdlabelsargs | indent 4 }}
   annotations:
     {{- range $annotationName,$annotationValue := $defaultIngressAnnotations }}
-    "{{ $annotationName }}": "{{ $annotationValue }}"
+    {{ $annotationName }}: |
+    {{- $annotationValue | nindent 6 }}
     {{- end }}
     {{ if and $ingressMapping.annotations }}
     {{- range $key, $value := $ingressMapping.annotations }}
-    "{{ $key }}": "{{ $value }}"
+    {{ $key }}: |
+    {{- $value | nindent 6 }}
     {{- end }}
     {{ end }}
     {{ if and $host.annotations }}
     {{- range $key, $value := $host.annotations }}
-    "{{ $key }}": "{{ $value }}"
+    {{ $key }}: |
+    {{- $value | nindent 6 }}
     {{- end }}
     {{ end }}
 
