@@ -170,20 +170,44 @@ metadata:
   {{ end }}
   {{ include "stdlabels.tpl" $stdlabelsargs | indent 4 }}
   annotations:
+    {{- /*
+        We need to ensure that multi-line annotations are preserved
+        but we also want to quote the value of any annotation that is NOT multi-line
+        so we use 'printf "%s"' and trim to force value to a string and remove leading/trailing whitespace
+        then if the length is different after removing all \n characters - the string must contain at least one newline and is therefore multi-line
+        We do this for default, mapping, and host annotations
+    */}}
     {{- range $annotationName,$annotationValue := $defaultIngressAnnotations }}
-    {{ $annotationName }}: |
-    {{- $annotationValue | nindent 6 }}
+    {{- $val := printf "%s" $annotationValue | trim }}
+    {{- if ne (len $val) (len (replace "\n" "" $val)) }}
+    {{ $annotationName }}: |-
+    {{- $val | nindent 6 }}
+    {{- else }}
+    {{ $annotationName }}: {{ $val | quote }}
     {{- end }}
+    {{- end }}
+
     {{ if and $ingressMapping.annotations }}
-    {{- range $key, $value := $ingressMapping.annotations }}
-    {{ $key }}: |
-    {{- $value | nindent 6 }}
+    {{- range $mappingAnnotationKey,$mappingAnnotationValue := $ingressMapping.annotations }}
+    {{- $mappingAnnotationVal := printf "%s" $mappingAnnotationValue | trim }}
+    {{- if ne (len $mappingAnnotationVal) (len (replace "\n" "" $mappingAnnotationVal)) }}
+    {{ $mappingAnnotationKey }}: |-
+    {{- $mappingAnnotationVal | nindent 6 }}
+    {{- else }}
+    {{ $mappingAnnotationKey }}: {{ $mappingAnnotationVal | quote }}
+    {{- end }}
     {{- end }}
     {{ end }}
+
     {{ if and $host.annotations }}
-    {{- range $key, $value := $host.annotations }}
-    {{ $key }}: |
-    {{- $value | nindent 6 }}
+    {{- range $hostAnnotationKey,$hostAnnotationValue := $host.annotations }}
+    {{- $hostAnnotationVal := printf "%s" $hostAnnotationValue | trim }}
+    {{- if ne (len $hostAnnotationVal) (len (replace "\n" "" $hostAnnotationVal)) }}
+    {{ $hostAnnotationKey }}: |-
+    {{- $hostAnnotationVal | nindent 6 }}
+    {{- else }}
+    {{ $hostAnnotationKey }}: {{ $hostAnnotationVal | quote }}
+    {{- end }}
     {{- end }}
     {{ end }}
 
