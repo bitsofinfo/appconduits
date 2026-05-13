@@ -1,3 +1,6 @@
+# 1.2.5
+* Handle bool to string conversion better for annotation values
+
 # 1.2.4
 * Detect multiline ingress annotations
 * Quote regular annotations
