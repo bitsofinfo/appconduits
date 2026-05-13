@@ -173,12 +173,12 @@ metadata:
     {{- /*
         We need to ensure that multi-line annotations are preserved
         but we also want to quote the value of any annotation that is NOT multi-line
-        so we use 'printf "%s"' and trim to force value to a string and remove leading/trailing whitespace
+        so we use 'printf "%v"' and trim to force value to a string and remove leading/trailing whitespace
         then if the length is different after removing all \n characters - the string must contain at least one newline and is therefore multi-line
         We do this for default, mapping, and host annotations
     */}}
     {{- range $annotationName,$annotationValue := $defaultIngressAnnotations }}
-    {{- $val := printf "%s" $annotationValue | trim }}
+    {{- $val := printf "%v" $annotationValue | trim }}
     {{- if ne (len $val) (len (replace "\n" "" $val)) }}
     {{ $annotationName }}: |-
     {{- $val | nindent 6 }}
@@ -189,7 +189,7 @@ metadata:
 
     {{ if and $ingressMapping.annotations }}
     {{- range $mappingAnnotationKey,$mappingAnnotationValue := $ingressMapping.annotations }}
-    {{- $mappingAnnotationVal := printf "%s" $mappingAnnotationValue | trim }}
+    {{- $mappingAnnotationVal := printf "%v" $mappingAnnotationValue | trim }}
     {{- if ne (len $mappingAnnotationVal) (len (replace "\n" "" $mappingAnnotationVal)) }}
     {{ $mappingAnnotationKey }}: |-
     {{- $mappingAnnotationVal | nindent 6 }}
@@ -201,7 +201,7 @@ metadata:
 
     {{ if and $host.annotations }}
     {{- range $hostAnnotationKey,$hostAnnotationValue := $host.annotations }}
-    {{- $hostAnnotationVal := printf "%s" $hostAnnotationValue | trim }}
+    {{- $hostAnnotationVal := printf "%v" $hostAnnotationValue | trim }}
     {{- if ne (len $hostAnnotationVal) (len (replace "\n" "" $hostAnnotationVal)) }}
     {{ $hostAnnotationKey }}: |-
     {{- $hostAnnotationVal | nindent 6 }}
